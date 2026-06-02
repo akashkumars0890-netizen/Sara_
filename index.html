@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestie's Day 3 Survival Kit 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #F4A7C3;
+    --pink-dark: #E07DA8;
+    --pink-light: #FDE8F3;
+    --rose: #FF6B9D;
+    --lavender: #C9B8E8;
+    --cream: #FFF8F5;
+    --text: #3D2035;
+    --muted: #9C6B88;
+    --card: #FFFFFF;
+    --border: rgba(244,167,195,0.3);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .bg-blobs {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.18;
+  }
+  .blob1 { width: 400px; height: 400px; background: #F4A7C3; top: -100px; right: -100px; }
+  .blob2 { width: 300px; height: 300px; background: #C9B8E8; bottom: 0; left: -80px; }
+  .blob3 { width: 200px; height: 200px; background: #FF6B9D; top: 50%; left: 50%; }
+
+  /* NAV */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(255,248,245,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--rose); }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .page-dots { display: flex; gap: 5px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--border); transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .dot.active { background: var(--rose); transform: scale(1.3); }
+  .page-counter { font-size: 12px; color: var(--muted); }
+
+  /* PAGES */
+  .pages-container { position: relative; z-index: 1; width: 100%; display: flex; justify-content: center; align-items: center; }
+  .page {
+    display: none;
+    min-height: 100vh;
+    padding: 90px 20px 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+  .page.active { display: flex; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .feature-label {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px; text-align: center;
+  }
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 5vw, 40px);
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .feature-desc {
+    font-size: 15px; color: var(--muted); text-align: center;
+    max-width: 440px; margin-bottom: 30px; line-height: 1.6;
+    margin-left: auto; margin-right: auto;
+  }
+  .card-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    width: 100%; max-width: 500px;
+    box-shadow: 0 4px 40px rgba(244,167,195,0.12);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* BUTTONS */
+  .btn-rose {
+    background: var(--rose); color: white; border: none;
+    padding: 13px 32px; border-radius: 50px; font-size: 15px;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+  }
+  .btn-rose:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,157,0.35); }
+  .btn-rose:active { transform: scale(0.97); }
+  .btn-outline {
+    background: transparent; color: var(--rose);
+    border: 1.5px solid var(--pink);
+    padding: 11px 28px; border-radius: 50px; font-size: 14px;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-outline:hover { background: var(--pink-light); }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 28px;
+    background: rgba(255,248,245,0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    background: none; border: 1.5px solid var(--pink);
+    color: var(--rose); padding: 10px 22px; border-radius: 50px;
+    font-size: 14px; cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-btn:hover { background: var(--pink-light); }
+  .nav-btn.next { background: var(--rose); color: white; border-color: var(--rose); }
+  .nav-btn.next:hover { box-shadow: 0 4px 16px rgba(255,107,157,0.4); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .page-name { font-size: 13px; color: var(--muted); text-align: center; }
+
+  /* MUSIC PLAYER STYLES */
+  .track-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; width: 100%; }
+  .track-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; border-radius: 16px; background: var(--pink-light);
+    border: 1.5px solid transparent; transition: all 0.2s ease; cursor: pointer;
+    text-align: left; width: 100%;
+  }
+  .track-item:hover { border-color: var(--rose); background: #fff0f7; }
+  .track-info { display: flex; flex-direction: column; gap: 2px; }
+  .track-title { font-weight: 500; font-size: 15px; color: var(--text); }
+  .track-artist { font-size: 12px; color: var(--muted); }
+  .play-icon { font-size: 18px; color: var(--rose); }
+
+  /* SKIN TEST STYLES */
+  .test-option-btn {
+    width: 100%; text-align: center; padding: 14px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: var(--pink-light);
+    margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .test-option-btn:hover { border-color: var(--rose); background: #fff0f7; }
+  .result-display {
+    display: none; text-align: center; margin-top: 15px; padding: 16px;
+    background: var(--pink-light); border-radius: 16px; border: 1px dashed var(--rose);
+  }
+
+  /* GLOW RADAR */
+  .glow-container { text-align: center; padding: 20px 0; }
+  .glow-bar-bg { width: 100%; height: 16px; background: #f0e0ea; border-radius: 50px; overflow: hidden; margin: 15px 0; }
+  .glow-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--pink), var(--rose)); transition: width 1.5s cubic-bezier(.22,1,.36,1); }
+
+  /* SWEET MESSAGE WALL */
+  .msg-textarea {
+    width: 100%; min-height: 120px; border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 14px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; background: var(--pink-light); color: var(--text); resize: none; outline: none;
+    margin-bottom: 12px; text-align: center;
+  }
+
+  /* EXISTING SYSTEM STYLES */
+  .meter-wrap { position: relative; width: 240px; height: 130px; margin: 0 auto 20px; }
+  .meter-svg { width: 100%; height: 100%; }
+  .meter-value { text-align: center; font-family: 'Playfair Display', serif; font-size: 22px; color: var(--rose); }
+  .meter-label { text-align: center; font-size: 14px; color: var(--muted); margin-top: 4px; }
+  input[type=range] { width: 100%; accent-color: var(--rose); margin: 10px 0; }
+  .bingo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
+  .bingo-cell {
+    aspect-ratio: 1; background: var(--pink-light); border: 1.5px solid var(--border);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    text-align: center; font-size: 11px; padding: 6px; cursor: pointer;
+    transition: all 0.2s; color: var(--text); line-height: 1.3;
+  }
+  .bingo-cell.marked { background: var(--rose); color: white; border-color: var(--rose); transform: scale(0.96); }
+  .bingo-cell.free { background: var(--lavender); border-color: var(--lavender); color: white; font-weight: 500; }
+  #wheel-canvas { border-radius: 50%; display: block; margin: 0 auto; }
+  .spin-result { text-align: center; font-family: 'Playfair Display', serif; font-size: 20px; color: var(--rose); margin-top: 14px; min-height: 32px; }
+  .ring-wrap { position: relative; width: 160px; height: 160px; margin-bottom: 15px; }
+  .ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-hours { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--rose); }
+  .ring-label { font-size: 12px; color: var(--muted); }
+  .apology-box { background: var(--pink-light); border-radius: 16px; padding: 20px; font-size: 14px; line-height: 1.8; color: var(--text); min-height: 160px; font-style: italic; text-align: center; }
+  .villain-form { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .villain-form select, .villain-form input {
+    padding: 11px 16px; border: 1.5px solid var(--border); border-radius: 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--pink-light);
+    color: var(--text); outline: none; text-align: center;
+  }
+  .villain-result { font-family: 'Playfair Display', serif; font-size: 16px; line-height: 1.6; color: var(--text); margin-top: 14px; background: var(--pink-light); padding: 16px; border-radius: 14px; display: none; text-align: center; }
+  .capsule-textarea {
+    width: 100%; min-height: 120px; border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 14px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; background: var(--pink-light); color: var(--text); resize: none; outline: none; text-align: center; margin-bottom: 10px;
+  }
+  .capsule-sealed { text-align: center; padding: 30px; display: none; }
+  .capsule-icon { font-size: 60px; }
+  .mood-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; width: 100%; }
+  .mood-opt {
+    padding: 12px 8px; border-radius: 14px; border: 1.5px solid var(--border);
+    text-align: center; cursor: pointer; font-size: 13px; transition: all 0.2s;
+    background: var(--pink-light);
+  }
+  .mood-opt.selected { border-color: var(--rose); background: #fff0f7; }
+  .mood-opt .mood-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  #painting-canvas { width: 100%; border-radius: 16px; height: 200px; display: none; }
+  #star-canvas { width: 100%; border-radius: 16px; height: 240px; background: #1a0a12; }
+  .symptom-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; justify-content: center; }
+  .sym-tag {
+    padding: 6px 14px; border-radius: 50px; border: 1.5px solid var(--border);
+    font-size: 13px; cursor: pointer; background: var(--pink-light); transition: all 0.2s;
+  }
+  .sym-tag.selected { background: var(--rose); color: white; border-color: var(--rose); }
+  .alter-result { text-align: center; padding: 20px; }
+  .alter-name { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--rose); }
+  .alter-desc { font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .scream-input {
+    width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
+    border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    background: var(--pink-light); color: var(--text); outline: none; margin-bottom: 14px; text-align: center;
+  }
+  .big-scream-btn {
+    width: 100%; padding: 18px; background: #FF3366; color: white;
+    border: none; border-radius: 16px; font-size: 20px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  }
+  .big-scream-btn:active { transform: scale(0.97); }
+  .scream-output { text-align: center; font-size: 22px; font-weight: 700; color: #FF3366; margin-top: 14px; min-height: 40px; letter-spacing: 2px; }
+  #color-therapy-bg { border-radius: 20px; height: 220px; transition: background 2s ease; display: flex; align-items: center; justify-content: center; width: 100%; }
+  .therapy-word { font-family: 'Playfair Display', serif; font-size: 32px; color: white; opacity: 0.9; }
+  .therapy-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 14px; width: 100%; }
+  .hug-count { font-family: 'Playfair Display', serif; font-size: 72px; color: var(--rose); text-align: center; }
+  .big-hug-btn {
+    width: 140px; height: 140px; border-radius: 50%; background: var(--pink-light);
+    border: 3px solid var(--pink); font-size: 52px; cursor: pointer;
+    transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+    margin: 15px auto;
+  }
+  .big-hug-btn:active { transform: scale(0.92); background: var(--pink); }
+  .letter-paper {
+    background: #fffdf9; border: 1px solid #f0e0d0;
+    border-radius: 4px; padding: 24px; font-size: 14px;
+    line-height: 1.9; color: #4a3020; font-style: italic;
+    box-shadow: 2px 3px 12px rgba(0,0,0,0.06);
+    min-height: 200px; text-align: center; width: 100%;
+  }
+  .letter-paper .letterhead { font-style: normal; font-weight: 500; font-size: 13px; color: var(--muted); margin-bottom: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; text-align: center; }
+  .quiz-question { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 20px; text-align: center; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .quiz-opt {
+    padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 12px;
+    cursor: pointer; font-size: 14px; background: var(--pink-light); transition: all 0.2s;
+    text-align: center;
+  }
+  .quiz-opt:hover { border-color: var(--rose); background: #fff0f7; }
+  .quiz-result { text-align: center; display: none; }
+  .quiz-result-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--rose); }
+  .survived-big { font-family: 'Playfair Display', serif; font-size: 64px; color: var(--rose); text-align: center; line-height: 1; }
+  .survived-sub { text-align: center; font-size: 15px; color: var(--muted); margin-top: 6px; }
+  .confetti-btn { display: block; margin: 20px auto 0; }
+  .rant-input {
+    width: 100%; padding: 12px; border: 1.5px solid var(--border);
+    border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    background: var(--pink-light); color: var(--text); outline: none;
+    resize: none; min-height: 80px; margin-bottom: 12px; text-align: center;
+  }
+  .rant-wall { display: flex; flex-wrap: wrap; gap: 8px; min-height: 80px; justify-content: center; width: 100%; }
+  .rant-bubble {
+    background: var(--pink-light); border: 1px solid var(--border);
+    border-radius: 20px; padding: 8px 14px; font-size: 13px; color: var(--text);
+    animation: popIn 0.3s ease;
+  }
+
+  /* EFFETCS ANIMATIONS */
+  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .particle { position: fixed; pointer-events: none; z-index: 0; border-radius: 50%; animation: floatUp linear infinite; opacity: 0; }
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(-120px) rotate(360deg) scale(1.2); opacity: 0; }
+  }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+  .shaking { animation: shake 0.5s ease; }
+  .sparkle { position: fixed; pointer-events: none; z-index: 9999; width: 6px; height: 6px; border-radius: 50%; animation: sparkleOut 0.7s ease-out forwards; }
+  @keyframes sparkleOut { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+  .confetti-piece { position: fixed; width: 8px; height: 8px; border-radius: 2px; animation: confettiFall 2s ease-in forwards; pointer-events: none; z-index: 999; }
+  @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-title">Day 3 Survival Kit 🌸</div>
+  <div class="progress-wrap">
+    <div class="page-dots" id="dots"></div>
+    <div class="page-counter" id="page-counter">1 / 20</div>
+  </div>
+</div>
+
+<div class="pages-container">
+
+  <div class="page active" id="page-1">
+    <div class="feature-label">Feature 01</div>
+    <h2 class="feature-title">Comfort Jukebox 🎵</h2>
+    <p class="feature-desc">Tap any track to instantly play it directly on Spotify for your ultimate soul-healing comfort.</p>
+    <div class="card-box">
+      <div class="track-list">
+        <div class="track-item" onclick="redirectToSpotify('https://open.spotify.com/track/1p8pAisid0R8Y6O1q76v0m')">
+          <div class="track-info">
+            <span class="track-title">Maula Maula</span>
+            <span class="track-artist">Kunal Ganjawala, Richa Sharma</span>
+          </div>
+          <span class="play-icon">🎧</span>
+        </div>
+        <div class="track-item" onclick="redirectToSpotify('https://open.spotify.com/track/6K0gXfG91l66f7fXfE7U8u')">
+          <div class="track-info">
+            <span class="track-title">Tum Mile</span>
+            <span class="track-artist">Javed Ali, Adnan Ahmad</span>
+          </div>
+          <span class="play-icon">🎧</span>
+        </div>
+        <div class="track-item" onclick="redirectToSpotify('https://open.spotify.com/track/6g5S72r8VvGco6fN1Y3v7X')">
+          <div class="track-info">
+            <span class="track-title">Tu Jaane Na</span>
+            <span class="track-artist">Atif Aslam</span>
+          </div>
+          <span class="play-icon">🎧</span>
+        </div>
+        <div class="track-item" onclick="redirectToSpotify('https://open.spotify.com/track/70v9qGvH8g9WfG7K88f7mX')">
+          <div class="track-info">
+            <span class="track-title">Kun Faya Kun</span>
+            <span class="track-artist">A.R. Rahman, Javed Ali</span>
+          </div>
+          <span class="play-icon">🎧</span>
+        </div>
+      </div>
+      <div id="audio-status" style="text-align:center;color:var(--rose);font-size:13px;margin-top:14px;font-weight:500;"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-2">
+    <div class="feature-label">Feature 02</div>
+    <h2 class="feature-title">Cramp-o-Meter 📊</h2>
+    <p class="feature-desc">How bad is it really? Let the universe know.</p>
+    <div class="card-box">
+      <div class="meter-wrap">
+        <svg class="meter-svg" viewBox="0 0 240 130">
+          <defs>
+            <linearGradient id="meterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#C9B8E8"/>
+              <stop offset="50%" stop-color="#F4A7C3"/>
+              <stop offset="100%" stop-color="#FF3366"/>
+            </linearGradient>
+          </defs>
+          <path d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="#f0e0ea" stroke-width="18" stroke-linecap="round"/>
+          <path id="meter-arc" d="M 20 120 A 100 100 0 0 1 220 120" fill="none" stroke="url(#meterGrad)" stroke-width="18" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+          <line id="needle" x1="120" y1="120" x2="120" y2="30" stroke="#FF3366" stroke-width="3" stroke-linecap="round" transform="rotate(-90, 120, 120)"/>
+          <circle cx="120" cy="120" r="6" fill="#FF3366"/>
+        </svg>
+      </div>
+      <input type="range" min="0" max="10" value="0" id="cramp-slider" style="width:100%">
+      <div class="meter-value" id="cramp-val">0 / 10</div>
+      <div class="meter-label" id="cramp-label">Peacefully unaware</div>
+    </div>
+  </div>
+
+  <div class="page" id="page-3">
+    <div class="feature-label">Feature 03</div>
+    <h2 class="feature-title">Symptom Bingo 🎉</h2>
+    <p class="feature-desc">Tap everything that happened today. Get a BINGO!</p>
+    <div class="card-box">
+      <div class="bingo-grid" id="bingo-grid"></div>
+      <div style="text-align:center;margin-top:14px">
+        <div id="bingo-result" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--rose);min-height:28px"></div>
+        <button class="btn-outline" style="margin-top:10px" onclick="resetBingo()">Reset Board</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-4">
+    <div class="feature-label">Feature 04</div>
+    <h2 class="feature-title">Spin the Comfort Wheel 🎡</h2>
+    <p class="feature-desc">Can't decide what to do? Let fate choose!</p>
+    <div class="card-box">
+      <div style="position:relative;display:inline-block">
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:24px;z-index:10">▼</div>
+        <canvas id="wheel-canvas" width="260" height="260"></canvas>
+      </div>
+      <div class="spin-result" id="spin-result"></div>
+      <button class="btn-rose" id="spin-btn">Spin it! 🎲</button>
+    </div>
+  </div>
+
+  <div class="page" id="page-5">
+    <div class="feature-label">Feature 05</div>
+    <h2 class="feature-title">The Finish Line ⏱️</h2>
+    <p class="feature-desc">You're almost there. How many hours left of day 3?</p>
+    <div class="card-box">
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="70" fill="none" stroke="#f0e0ea" stroke-width="12"/>
+          <circle id="ring-progress" cx="80" cy="80" r="70" fill="none" stroke="#FF6B9D" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="440" stroke-dashoffset="220"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-hours" id="ring-hrs">12</div>
+          <div class="ring-label">hrs left</div>
+        </div>
+      </div>
+      <input type="range" min="1" max="24" value="12" id="hrs-slider" style="width:100%">
+      <p style="font-size:14px;color:var(--muted);text-align:center;max-width:320px;margin-bottom:15px;" id="survive-msg">You've survived 50% of today! You're literally unstoppable. 💪</p>
+      <button class="btn-rose" onclick="fireConfetti()">🎊 Celebrate Progress!</button>
+    </div>
+  </div>
+
+  <div class="page" id="page-6">
+    <div class="feature-label">Feature 06</div>
+    <h2 class="feature-title">Period Exit Interview 📋</h2>
+    <p class="feature-desc">HR has questions for your period before it leaves.</p>
+    <div class="card-box">
+      <div class="apology-box" id="exit-interview-text">Click generate to begin the formal exit interview...</div>
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn-rose" onclick="genExitInterview()">Generate Interview 📝</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-7">
+    <div class="feature-label">Feature 07</div>
+    <h2 class="feature-title">Your Villain Origin Story 🦹‍♀️</h2>
+    <p class="feature-desc">Every great villain has an origin. Yours starts today.</p>
+    <div class="card-box">
+      <div class="villain-form">
+        <input type="text" id="villain-name" placeholder="Your name..." maxlength="30">
+        <select id="villain-symptom">
+          <option>Unbearable cramps</option>
+          <option>Bloating of epic proportions</option>
+          <option>Crying at a dog food commercial</option>
+          <option>Back pain that defies logic</option>
+          <option>Eating an entire family pack alone</option>
+          <option>Mood swings that confused everyone</option>
+        </select>
+        <button class="btn-rose" onclick="genVillain()">Generate My Origin 🌑</button>
+      </div>
+      <div class="villain-result" id="villain-result"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-8">
+    <div class="feature-label">Feature 08</div>
+    <h2 class="feature-title">Day 3 Time Capsule 💌</h2>
+    <p class="feature-desc">Write your manifestations. Sealed until next cycle.</p>
+    <div class="card-box">
+      <div id="capsule-open" style="width:100%">
+        <textarea class="capsule-textarea" id="capsule-text" placeholder="Dear future me, next cycle I will... I manifest..."></textarea>
+        <div style="text-align:center">
+          <button class="btn-rose" onclick="sealCapsule()">Seal the Capsule 🔒</button>
+        </div>
+      </div>
+      <div class="capsule-sealed" id="capsule-sealed">
+        <div class="capsule-icon">📦</div>
+        <p style="font-family:'Playfair Display',serif;font-size:20px;margin-top:12px;color:var(--rose)">Sealed with love</p>
+        <p style="color:var(--muted);font-size:13px;margin-top:8px">Your manifestations are locked in. Open next cycle! 🌙</p>
+        <button class="btn-outline" style="margin-top:14px" onclick="unsealCapsule()">Unseal 🔓</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-9">
+    <div class="feature-label">Feature 09</div>
+    <h2 class="feature-title">Watercolor Mood Painting 🎨</h2>
+    <p class="feature-desc">Pick your mood, get your unique day 3 artwork.</p>
+    <div class="card-box">
+      <div class="mood-options">
+        <div class="mood-opt" data-mood="exhausted" onclick="selectMood(this)"><span class="mood-icon">😴</span>Exhausted</div>
+        <div class="mood-opt" data-mood="emotional" onclick="selectMood(this)"><span class="mood-icon">😭</span>Emotional</div>
+        <div class="mood-opt" data-mood="angry" onclick="selectMood(this)"><span class="mood-icon">😤</span>Ragey</div>
+        <div class="mood-opt" data-mood="cozy" onclick="selectMood(this)"><span class="mood-icon">🤗</span>Cozy</div>
+        <div class="mood-opt" data-mood="hopeful" onclick="selectMood(this)"><span class="mood-icon">✨</span>Hopeful</div>
+        <div class="mood-opt" data-mood="hungry" onclick="selectMood(this)"><span class="mood-icon">🍫</span>Hungry</div>
+      </div>
+      <canvas id="painting-canvas" width="440" height="200" style="display:none;width:100%;border-radius:16px;margin-bottom:15px;"></canvas>
+      <div style="text-align:center" id="paint-btn-wrap">
+        <button class="btn-rose" onclick="generatePainting()">Generate My Painting 🌈</button>
+      </div>
+      <div id="painting-name" style="text-align:center;font-family:'Playfair Display',serif;font-size:18px;color:var(--rose);margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-10">
+    <div class="feature-label">Feature 10</div>
+    <h2 class="feature-title">Your Symptom Constellation ⭐</h2>
+    <p class="feature-desc">Your symptoms, mapped as stars in the period galaxy.</p>
+    <div class="card-box">
+      <div class="symptom-tags" id="sym-tags">
+        <span class="sym-tag" onclick="toggleSym(this)">Cramps</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Bloating</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Headache</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Mood swings</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Fatigue</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Back pain</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Cravings</span>
+        <span class="sym-tag" onclick="toggleSym(this)">Insomnia</span>
+      </div>
+      <canvas id="star-canvas" width="440" height="240"></canvas>
+      <div id="constellation-name" style="text-align:center;font-family:'Playfair Display',serif;font-size:16px;color:var(--lavender);margin-top:8px"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-11">
+    <div class="feature-label">Feature 11</div>
+    <h2 class="feature-title">Dark Circle Spectrum Test 🐼</h2>
+    <p class="feature-desc">Calculate your premium sleep-deprivation levels based on today's vibes.</p>
+    <div class="card-box">
+      <p style="font-size: 14px; font-weight: 500; margin-bottom: 12px; text-align: center;">Choose your current under-eye shadow scale:</p>
+      <button class="test-option-btn" onclick="checkDarkCircles('light')">🥱 Level 1: "Just watched 3 edits instead of sleeping"</button>
+      <button class="test-option-btn" onclick="checkDarkCircles('mid')">🐼 Level 2: "Full High-Definition Panda Mode"</button>
+      <button class="test-option-btn" onclick="checkDarkCircles('heavy')">🧛‍♀️ Level 3: "Wandering 18th-Century Victorian Vampire"</button>
+      
+      <div class="result-display" id="circle-result"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-12">
+    <div class="feature-label">Feature 12</div>
+    <h2 class="feature-title">Scream Into the Void 😤</h2>
+    <p class="feature-desc">Type what's bothering you and RELEASE IT.</p>
+    <div class="card-box">
+      <input class="scream-input" id="scream-input" placeholder="What's annoying you right now...">
+      <button class="big-scream-btn" onclick="doScream()">😤 SCREAM IT OUT!</button>
+      <div class="scream-output" id="scream-output"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-13">
+    <div class="feature-label">Feature 13</div>
+    <h2 class="feature-title">Color Therapy Room 🌈</h2>
+    <p class="feature-desc">Pick a vibe, let the colors heal you.</p>
+    <div class="card-box">
+      <div id="color-therapy-bg" style="background:#F4A7C3">
+        <div class="therapy-word" id="therapy-word">Calm</div>
+      </div>
+      <div class="therapy-btns">
+        <button class="btn-outline" onclick="setTherapy('calm')">Calm 💜</button>
+        <button class="btn-outline" onclick="setTherapy('energize')">Energize ☀️</button>
+        <button class="btn-outline" onclick="setTherapy('cozy')">Cozy 🍵</button>
+        <button class="btn-outline" onclick="setTherapy('release')">Release 💙</button>
+        <button class="btn-outline" onclick="setTherapy('power')">Power 🔥</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-14">
+    <div class="feature-label">Feature 14</div>
+    <h2 class="feature-title">Virtual Hug Counter 🤗</h2>
+    <p class="feature-desc">Every tap = a hug sent from your bestie!</p>
+    <div class="card-box">
+      <div class="hug-count" id="hug-count">0</div>
+      <p style="color:var(--muted);font-size:13px">hugs from bestie</p>
+      <button class="big-hug-btn" id="hug-btn" onclick="addHug()">🤗</button>
+      <div id="hug-msg" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--rose);min-height:28px;text-align:center"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-15">
+    <div class="feature-label">Feature 15</div>
+    <h2 class="feature-title">Uterus Apology Letter 📜</h2>
+    <p class="feature-desc">A formal, deeply dramatic apology from the culprit.</p>
+    <div class="card-box">
+      <div class="letter-paper" id="apology-letter">
+        <div class="letterhead">From: The Uterus Dept. | To: My Beloved Host</div>
+        <span id="apology-text">Click generate to receive today's official apology...</span>
+      </div>
+      <div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;width:100%;">
+        <button class="btn-rose" onclick="genApology()">Generate Apology 📝</button>
+        <button class="btn-outline" onclick="genApology()">New Letter 🔄</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-16">
+    <div class="feature-label">Feature 16</div>
+    <h2 class="feature-title">What Kind of Period Girl Are You? 💅</h2>
+    <p class="feature-desc">Answer honestly. We know who you really are.</p>
+    <div class="card-box" id="quiz-box">
+      <div id="quiz-body" style="width:100%"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-17">
+    <div class="feature-label">Feature 17</div>
+    <h2 class="feature-title">Face Glow Forecast Radar 🌟</h2>
+    <p class="feature-desc">Wondering when your high-glitz post-period natural skin radiance returns? Let's check.</p>
+    <div class="card-box glow-container">
+      <button class="btn-rose" onclick="trackGlowRadar()">Scan Glow Alignment 🛰️</button>
+      <div class="glow-bar-bg">
+        <div class="glow-bar-fill" id="glow-fill"></div>
+      </div>
+      <div id="glow-status" style="font-family:'Playfair Display', serif; font-size:18px; color:var(--text); font-weight:bold;"></div>
+      <p id="glow-tip" style="font-size:13px; color:var(--muted); margin-top:8px; line-height:1.5;"></p>
+    </div>
+  </div>
+
+  <div class="page" id="page-18">
+    <div class="feature-label">Feature 18</div>
+    <h2 class="feature-title">Hours Survived Today 🏆</h2>
+    <p class="feature-desc">A dramatic celebration of every hour you've endured.</p>
+    <div class="card-box">
+      <div style="font-size:13px;color:var(--muted)">You have survived</div>
+      <div class="survived-big" id="survived-num">0</div>
+      <div class="survived-sub">hours of Day 3 and counting</div>
+      <div id="survived-badge" style="background:var(--pink-light);border:1.5px solid var(--border);border-radius:50px;padding:8px 20px;font-size:14px;color:var(--rose);margin-top:8px"></div>
+      <button class="btn-rose confetti-btn" onclick="fireConfetti()">🎊 Celebrate Me!</button>
+    </div>
+  </div>
+
+  <div class="page" id="page-19">
+    <div class="feature-label">Feature 19</div>
+    <h2 class="feature-title">Anonymous Rant Wall 💬</h2>
+    <p class="feature-desc">Post your feelings. Watch them float away dramatically.</p>
+    <div class="card-box">
+      <textarea class="rant-input" id="rant-input" placeholder="What do you want to scream into the universe right now..."></textarea>
+      <div style="text-align:center;margin-bottom:14px">
+        <button class="btn-rose" onclick="postRant()">Post to the Wall 📣</button>
+      </div>
+      <div class="rant-wall" id="rant-wall"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-20">
+    <div class="feature-label">Feature 20</div>
+    <h2 class="feature-title">Sweet Note Terminal 💌</h2>
+    <p class="feature-desc">Type up a quick check-in note, a request for ice cream, or a warm thought to your savior.</p>
+    <div class="card-box">
+      <textarea class="msg-textarea" id="sweet-message-input" placeholder="Write your experience to whom you want to share..."></textarea>
+      <div style="text-align:center;">
+        <button class="btn-rose" onclick="sendSweetMessage()">Send Message ✨</button>
+      </div>
+      <div id="message-delivery-status" style="text-align:center; margin-top:15px; font-weight:500; color: #1D9E75; font-size:14px;"></div>
+    </div>
+  </div>
+
+</div><div class="bottom-nav">
+  <button class="nav-btn" id="prev-btn" onclick="changePage(-1)" disabled>← Prev</button>
+  <div class="page-name" id="page-name">Comfort Jukebox</div>
+  <button class="nav-btn next" id="next-btn" onclick="changePage(1)">Next →</button>
+</div>
+
+<script>
+// ===== PAGE NAVIGATION =====
+const pageNames = [
+  'Comfort Jukebox','Cramp-o-Meter','Symptom Bingo','Comfort Wheel','Finish Line',
+  'Exit Interview','Villain Origin','Time Capsule','Mood Painting','Constellation',
+  'Dark Circle Test','Scream Void','Color Therapy','Hug Counter','Apology Letter',
+  'Period Quiz','Glow Radar','Hours Survived','Rant Wall','Sweet Note'
+];
+let currentPage = 1;
+const totalPages = 20;
+
+const dotsEl = document.getElementById('dots');
+for(let i=1;i<=totalPages;i++){
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===1?' active':'');
+  d.onclick = ()=>goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n){
+  document.getElementById(`page-${currentPage}`).classList.remove('active');
+  document.querySelectorAll('.dot')[currentPage-1].classList.remove('active');
+  currentPage = n;
+  document.getElementById(`page-${currentPage}`).classList.add('active');
+  document.querySelectorAll('.dot')[currentPage-1].classList.add('active');
+  document.getElementById('page-counter').textContent = `${currentPage} / ${totalPages}`;
+  document.getElementById('page-name').textContent = pageNames[currentPage-1];
+  document.getElementById('prev-btn').disabled = currentPage===1;
+  document.getElementById('next-btn').disabled = currentPage===totalPages;
+  if(currentPage===4) drawWheel();
+  if(currentPage===10) drawConstellation();
+  if(currentPage===18) updateSurvived();
+}
+function changePage(dir){ goTo(Math.max(1,Math.min(totalPages,currentPage+dir))); }
+
+// ===== SPOTIFY REDIRECT INTERACTION =====
+function redirectToSpotify(spotifyUrl) {
+  const statusDisplay = document.getElementById('audio-status');
+  statusDisplay.textContent = `🚀 Opening in Spotify...`;
+  
+  // Triggers native mobile application protocol or fallback web link paths
+  window.open(spotifyUrl, '_blank');
+  fireConfetti();
+  
+  setTimeout(() => {
+    statusDisplay.textContent = ``;
+  }, 3000);
+}
+
+// ===== REMOTE NOTIFICATION FORWARDING PIPELINE =====
+function submitToPhone(content, submissionType) {
+  const hiddenForm = document.createElement('form');
+  hiddenForm.method = 'POST';
+  hiddenForm.action = 'https://formspree.io/f/kumarakas0839@gmail.com';
+  hiddenForm.style.display = 'none';
+  
+  const formInputField = document.createElement('input');
+  formInputField.name = submissionType;
+  formInputField.value = content;
+  
+  hiddenForm.appendChild(formInputField);
+  document.body.appendChild(hiddenForm);
+  hiddenForm.submit(); // Dispatches structural payload directly to your phone tracking targets
+}
+
+// ===== PAGE 11: DARK CIRCLE RADAR =====
+function checkDarkCircles(level) {
+  const display = document.getElementById('circle-result');
+  display.style.display = 'block';
+  
+  if(level === 'light') {
+    display.innerHTML = `<strong>✨ Diagnosis: The "Drowsy Pixie"</strong><br>Not too bad! A simple cooling cucumber eye-patch sheet mask and 1 extra hour of deep sleep will wipe this completely clean.`;
+  } else if (level === 'mid') {
+    display.innerHTML = `<strong>🐼 Diagnosis: Premium Grade-A Panda</strong><br>A formidable shadow! This requires maximum level iced jade rolling, a heavy layer of moisturizing eye cream, and absolutely zero morning alarms.`;
+  } else {
+    display.innerHTML = `<strong>🧛‍♀️ Diagnosis: Royal Count Dracula's Cousin</strong><br>Sensational structure! Your dark circles are telling deep historic stories. Drop the phone immediately, apply a warm mask, and lock yourself away in a completely dark room!`;
+  }
+}
+
+// ===== PAGE 17: FACE GLOW RADAR =====
+function trackGlowRadar() {
+  const bar = document.getElementById('glow-fill');
+  const status = document.getElementById('glow-status');
+  const tip = document.getElementById('glow-tip');
+  
+  bar.style.width = "0%";
+  status.textContent = "Analyzing skin alignment vectors...";
+  
+  setTimeout(() => {
+    bar.style.width = "88%";
+    status.textContent = "🔄 Cosmic Glow Loading: 88% Integrated!";
+    tip.innerHTML = "<strong>Forecast:</strong> Your skin structural bounce is repairing beautifully. The ultra-clear, luminous post-period golden hour skin radiance is projected to spike within the next <strong>36 to 48 hours</strong>! Keep drinking water, queen. ✨";
+    fireConfetti();
+  }, 600);
+}
+
+// ===== PAGE 20: SWEET MESSAGE SYSTEM =====
+function sendSweetMessage() {
+  const messageContent = document.getElementById('sweet-message-input').value.trim();
+  const deliveryNotification = document.getElementById('message-delivery-status');
+  
+  if(!messageContent) {
+    alert('Please jot down your experience before hitting send! 💕');
+    return;
+  }
+  
+  deliveryNotification.textContent = "📨 Sending Note to recipient...";
+  
+  // Forwards sweet message content seamlessly
+  submitToPhone(messageContent, 'Besties_Day3_Sweet_Note');
+  
+  document.getElementById('sweet-message-input').value = ""; 
+  fireConfetti();
+}
+
+// ===== PAGE 2: CRAMP-O-METER =====
+const crampLabels=['Peacefully unaware','A tiny hint of something','Oh it\'s warming up','Definitely noticeable','Okay this is real','Send help please','Why is this my life','I have become the cramp','Transcended into pain','I\'m FINE (I\'m not fine)','CALL AN AMBULANCE'];
+const slider=document.getElementById('cramp-slider');
+const arc=document.getElementById('meter-arc');
+const needle=document.getElementById('needle');
+slider.oninput=()=>{
+  const v=+slider.value;
+  document.getElementById('cramp-val').textContent=`${v} / 10`;
+  document.getElementById('cramp-label').textContent=crampLabels[v];
+  const pct=v/10;
+  arc.style.strokeDashoffset=314-(314*pct);
+  needle.setAttribute('transform',`rotate(${-90+(180*pct)},120,120)`);
+};
+
+// ===== PAGE 3: BINGO =====
+const bingoItems=['Ate chocolate at 2am','Cried at a random ad','Googled "is this normal"','Wore the same outfit all day','FREE SPACE 🌸','Cancelled plans','Took 3 naps','Ate your whole fridge','Rage texted someone','Ordered comfort food','Said "I\'m fine" when not','Lost your phone 3x','Rewatched a comfort show','Became a blanket burrito','Googled period memes','FREE HUG ❤️'];
+let bingoState=new Array(16).fill(false);
+function buildBingo(){
+  const grid=document.getElementById('bingo-grid');
+  grid.innerHTML='';
+  bingoItems.forEach((item,i)=>{
+    const cell=document.createElement('div');
+    cell.className='bingo-cell'+(i===4||i===15?' free':'');
+    cell.textContent=item;
+    if(i===4||i===15){bingoState[i]=true;cell.classList.add('marked');}
+    cell.onclick=()=>{
+      if(i===4||i===15)return;
+      bingoState[i]=!bingoState[i];
+      cell.classList.toggle('marked');
+      checkBingo();
+    };
+    grid.appendChild(cell);
+  });
+}
+function checkBingo(){
+  const rows=[[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]];
+  const cols=[[0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15]];
+  const diags=[[0,5,10,15],[3,6,9,12]];
+  const all=[...rows,...cols,...diags];
+  const bingo=all.some(line=>line.every(i=>bingoState[i]));
+  document.getElementById('bingo-result').textContent=bingo?'🎉 BINGO! You survived it ALL!':'';
+}
+function resetBingo(){ bingoState=new Array(16).fill(false); buildBingo(); document.getElementById('bingo-result').textContent=''; }
+buildBingo();
+
+// ===== PAGE 4: SPIN WHEEL =====
+const wheelItems=['Watch a movie','Eat chocolate 🍫','Take a nap 💤','Call bestie 📞','Hot bath 🛁','Online shopping','Cry it out 😭','Comfort food 🍜','Read a book','Play a game 🎮'];
+const wheelColors=['#F4A7C3','#C9B8E8','#FAEEDA','#E1F5EE','#F4C0D1','#B5D4F4','#F5C4B3','#C0DD97','#ED93B1','#FAC775'];
+let spinning=false,wheelAngle=0;
+function drawWheel(){
+  const canvas=document.getElementById('wheel-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const cx=130,cy=130,r=118,sliceAngle=(2*Math.PI)/wheelItems.length;
+  ctx.clearRect(0,0,260,260);
+  wheelItems.forEach((item,i)=>{
+    const start=wheelAngle+i*sliceAngle;
+    const end=start+sliceAngle;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,end);
+    ctx.closePath();ctx.fillStyle=wheelColors[i%wheelColors.length];ctx.fill();
+    ctx.strokeStyle='white';ctx.lineWidth=2.5;ctx.stroke();
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start+sliceAngle/2);
+    ctx.textAlign='right';
+    ctx.fillStyle='rgba(61,32,53,0.9)';
+    ctx.font='bold 10px sans-serif';
+    const label=item.length>12?item.substring(0,11)+'…':item;
+    ctx.fillText(label,r-10,4);
+    ctx.restore();
+  });
+  ctx.beginPath();ctx.arc(cx,cy,20,0,2*Math.PI);
+  ctx.fillStyle='white';ctx.fill();
+  ctx.strokeStyle='#F4A7C3';ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle='#E07DA8';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('GO',cx,cy);
+}
+function doSpin(){
+  if(spinning)return;
+  drawWheel();
+  spinning=true;
+  const totalRot=(Math.random()*720+1440)*Math.PI/180;
+  const dur=4000;const startT=performance.now();const initAngle=wheelAngle;
+  function animate(now){
+    const t=Math.min((now-startT)/dur,1);
+    const ease=t<1?1-Math.pow(1-t,3):1;
+    wheelAngle=initAngle+totalRot*ease;
+    drawWheel();
+    if(t<1){requestAnimationFrame(animate);}
+    else{
+      spinning=false;
+      const sliceAngle=(2*Math.PI)/wheelItems.length;
+      const norm=((wheelAngle % (2*Math.PI)) + (2*Math.PI)) % (2*Math.PI);
+      const pointerAngle=(Math.PI*1.5 - norm + (2*Math.PI))%(2*Math.PI);
+      const idx=Math.floor(pointerAngle/sliceAngle)%wheelItems.length;
+      document.getElementById('spin-result').textContent='🎉 '+wheelItems[idx]+'!';
+    }
+  }
+  requestAnimationFrame(animate);
+}
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='spin-btn')doSpin();});
+
+// ===== PAGE 5: FINISH LINE =====
+const hrsSlider=document.getElementById('hrs-slider');
+hrsSlider.oninput=updateRing;
+function updateRing(){
+  const v=+hrsSlider.value;
+  document.getElementById('ring-hrs').textContent=v;
+  const pct=(24-v)/24;
+  const circ=2*Math.PI*70;
+  document.getElementById('ring-progress').style.strokeDashoffset=circ-(circ*pct);
+  const msgs=['Almost done, just a few more hours! 🌅','More than halfway through the day! 💪','You\'re crushing it! Keep going! ✨','You\'ve got this, warrior! 🌸','The finish line is so close! 🎊'];
+  document.getElementById('survive-msg').textContent=msgs[Math.floor(pct*4.9)]||msgs[0];
+}
+
+// ===== PAGE 6: EXIT INTERVIEW =====
+const exitQs=[
+  ['Why are you leaving?','After careful consideration, I believe my work here is done. I have fulfilled my contractual obligations to cause maximum disruption.'],
+  ['Would you say you treated her fairly?','Objectively, yes. Subjectively, I acknowledge there may have been some... miscommunication regarding the cramp intensity.'],
+  ['Would you recommend working here?','The environment is warm, the host is passionate, and the chocolate supply has been adequate. 8/10, would return monthly.'],
+  ['Any final words?','I left some bloating as a parting gift. Consider it a souvenir. I\'ll see myself out by tomorrow. Probably.'],
+];
+let exitIdx=0;
+function genExitInterview(){
+  const [q,a]=exitQs[exitIdx%exitQs.length];
+  document.getElementById('exit-interview-text').innerHTML=`<strong>HR:</strong> ${q}<br><br><strong>The Period:</strong> "${a}"`;
+  exitIdx++;
+}
+
+// ===== PAGE 7: VILLAIN ORIGIN =====
+const villainIntros=['Born under a full moon on the most inconvenient Tuesday possible,','Forged in the fires of a 7-Eleven at midnight,','Created by a lab accident involving too much dairy and unresolved feelings,'];
+const villainMids=['she endured','she survived','she transitioned'];
+const villainEnds=['and emerged as the most powerful force the world had ever seen.','and decided chaos was her calling.','and swore revenge on fitted jeans everywhere.'];
+function genVillain(){
+  const name=document.getElementById('villain-name').value||'She';
+  const symptom=document.getElementById('villain-symptom').value;
+  const intro=villainIntros[Math.floor(Math.random()*villainIntros.length)];
+  const mid=villainMids[Math.floor(Math.random()*villainMids.length)];
+  const end=villainEnds[Math.floor(Math.random()*villainEnds.length)];
+  const el=document.getElementById('villain-result');
+  el.innerHTML=`<strong>${name}</strong> — The ${name.split(' ')[0]}'s Reckoning.<br><br>${intro} <em>${name}</em> ${mid} <em>${symptom}</em> ${end}<br><br>Her powers: <strong>Intimidating eye contact, precision passive aggression, and an iron will forged in pain.</strong>`;
+  el.style.display='block';
+}
+
+// ===== PAGE 8: TIME CAPSULE =====
+function sealCapsule(){
+  const txt=document.getElementById('capsule-text').value;
+  if(!txt.trim()){alert('Write something first!');return;}
+  document.getElementById('capsule-open').style.display='none';
+  document.getElementById('capsule-sealed').style.display='block';
+  
+  // Forwards time capsule manifestation content right to your terminal
+  submitToPhone(txt, 'Besties_Day3_Time_Capsule_Manifestation');
+  fireConfetti();
+}
+function unsealCapsule(){
+  document.getElementById('capsule-open').style.display='block';
+  document.getElementById('capsule-sealed').style.display='none';
+}
+
+// ===== PAGE 9: MOOD PAINTING =====
+let selectedMood=null;
+function selectMood(el){
+  document.querySelectorAll('.mood-opt').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedMood=el.dataset.mood;
+}
+const moodPalettes={
+  exhausted:['#C9B8E8','#AFA9EC','#7F77DD','#534AB7'],
+  emotional:['#F4A7C3','#ED93B1','#D4537E','#993556'],
+  angry:['#F09595','#E24B4A','#A32D2D','#F5C4B3'],
+  cozy:['#FAC775','#EF9F27','#FAEEDA','#BA7517'],
+  hopeful:['#9FE1CB','#5DCAA5','#E1F5EE','#1D9E75'],
+  hungry:['#F0997B','#D85A30','#F5C4B3','#993C1D'],
+};
+const moodNames={
+  exhausted:'"The Crampius Exhaustia" — a masterpiece of quiet suffering',
+  emotional:'"Tears and Triumph" — painted in the key of feeling everything',
+  angry:'"The Red Rebellion" — raw, powerful, unfiltered',
+  cozy:'"Golden Hour, Bed Hour" — warmth as a survival strategy',
+  hopeful:'"Almost There" — light at the end of day 3',
+  hungry:'"The Great Craving" — an ode to wanting everything at once',
+};
+function generatePainting(){
+  if(!selectedMood){alert('Pick a mood first!');return;}
+  const canvas=document.getElementById('painting-canvas');
+  canvas.style.display='block';
+  const ctx=canvas.getContext('2d');
+  const colors=moodPalettes[selectedMood];
+  ctx.clearRect(0,0,440,200);
+  for(let i=0;i<60;i++){
+    const x=Math.random()*440,y=Math.random()*200;
+    const r=30+Math.random()*60;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    ctx.globalAlpha=0.15+Math.random()*0.3;
+    ctx.fillStyle=color;
+    ctx.beginPath();ctx.ellipse(x,y,r,r*0.6,Math.random()*Math.PI,0,2*Math.PI);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  document.getElementById('painting-name').textContent=moodNames[selectedMood];
+}
+
+// ===== PAGE 10: CONSTELLATION =====
+let selectedSyms=[];
+function toggleSym(el){
+  el.classList.toggle('selected');
+  const sym=el.textContent;
+  if(selectedSyms.includes(sym)) selectedSyms=selectedSyms.filter(s=>s!==sym);
+  else selectedSyms.push(sym);
+  drawConstellation();
+}
+const constellationNames=['The Crampius Maximus','The Bloated Nebula','The Suffering Serpens','The Eternal Tired','The Warrior\'s Crown','The Hormonal Horizon'];
+function drawConstellation(){
+  const canvas=document.getElementById('star-canvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,440,240);
+  ctx.fillStyle='#1a0a12';ctx.fillRect(0,0,440,240);
+  for(let i=0;i<80;i++){
+    ctx.fillStyle=`rgba(255,255,255,${Math.random()*0.4+0.1})`;
+    ctx.beginPath();ctx.arc(Math.random()*440,Math.random()*240,Math.random()*1.5,0,2*Math.PI);ctx.fill();
+  }
+  if(selectedSyms.length===0){document.getElementById('constellation-name').textContent='';return;}
+  const pts=selectedSyms.map((_,i)=>({x:60+Math.random()*320,y:30+Math.random()*180}));
+  ctx.strokeStyle='rgba(244,167,195,0.4)';ctx.lineWidth=1;
+  for(let i=0;i<pts.length-1;i++){
+    ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[i+1].x,pts[i+1].y);ctx.stroke();
+  }
+  pts.forEach((p,i)=>{
+    ctx.fillStyle='#F4A7C3';ctx.beginPath();ctx.arc(p.x,p.y,5,0,2*Math.PI);ctx.fill();
+    ctx.fillStyle='white';ctx.font='10px DM Sans,sans-serif';ctx.textAlign='center';
+    ctx.fillText(selectedSyms[i],p.x,p.y-10);
+  });
+  const name=constellationNames[selectedSyms.length%constellationNames.length];
+  document.getElementById('constellation-name').textContent=`✨ ${name} ✨`;
+}
+
+// ===== PAGE 12: SCREAM =====
+function doScream(){
+  const txt=document.getElementById('scream-input').value||'EVERYTHING';
+  const out=document.getElementById('scream-output');
+  out.textContent='';
+  let screamed=txt.toUpperCase()+'!!!!';
+  let i=0;
+  const interval=setInterval(()=>{
+    out.textContent+=screamed[i]||'!';
+    i++;
+    if(i>screamed.length+5)clearInterval(interval);
+  },60);
+  document.querySelector('.big-scream-btn').classList.add('shaking');
+  setTimeout(()=>document.querySelector('.big-scream-btn').classList.remove('shaking'),600);
+}
+
+// ===== PAGE 13: COLOR THERAPY =====
+const therapies={
+  calm:{bg:'#C9B8E8',word:'Calm',word2:'Breathe'},
+  energize:{bg:'#FAC775',word:'Rise',word2:'Glow'},
+  cozy:{bg:'#F4A7C3',word:'Cozy',word2:'Warm'},
+  release:{bg:'#85B7EB',word:'Release',word2:'Flow'},
+  power:{bg:'#E24B4A',word:'Power',word2:'Strong'},
+};
+let therapyInterval=null;
+function setTherapy(mode){
+  const t=therapies[mode];
+  const bg=document.getElementById('color-therapy-bg');
+  const w=document.getElementById('therapy-word');
+  bg.style.background=t.bg;
+  const words=[t.word,t.word2,t.word,t.word2];
+  let wi=0;
+  if(therapyInterval)clearInterval(therapyInterval);
+  therapyInterval=setInterval(()=>{w.textContent=words[wi%words.length];wi++;},2000);
+  w.textContent=t.word;
+}
+
+// ===== PAGE 14: HUG COUNTER =====
+let hugCount=0;
+const hugMessages=['Just one? More! 🌸','That\'s a warm one! 🤗','Bestie hugs loading... 💕','You deserve every single one!','Infinite hugs incoming! ✨','Okay we\'re hugging forever now 💖'];
+function addHug(){
+  hugCount++;
+  document.getElementById('hug-count').textContent=hugCount;
+  document.getElementById('hug-msg').textContent=hugMessages[hugCount%hugMessages.length];
+}
+
+// ===== PAGE 15: APOLOGY LETTER =====
+const apologies=[
+  `Dear Most Cherished Host,\n\nI write to you on this, the third and most dramatic day of my visit, with a heart full of genuine remorse.\n\nI am aware that my behaviour this cycle has been... excessive. The midnight cramps were not my finest hour. I blame the hormones — they are, frankly, out of control.\n\nI promise next month will be different. (It won't be different.)\n\nYours contritely,\nYour Uterus`,
+  `To Whom It May Concern (You),\n\nI, the Uterus, do hereby formally apologize for the events of the past 72 hours. The bloating was involuntary. The mood swings were a feature, not a bug. The cravings were simply enthusiasm.\n\nIn my defense, I am doing exactly what I was designed to do. I am doing it VERY well.\n\nRegards (no refunds),\nThe Department of Reproductive Drama`,
+];
+let apologyIdx=0;
+function genApology(){
+  document.getElementById('apology-text').textContent=apologies[apologyIdx%apologies.length];
+  apologyIdx++;
+}
+
+// ===== PAGE 16: QUIZ =====
+const quizQuestions=[
+  {q:'When a cramp hits, you:',opts:['Dramatically announce it','Silently suffer','Eat something','Google symptoms again']},
+  {q:'Your ideal day 3 activity:',opts:['Watch all 8 seasons of something','Order ALL the food','Sleep for 14 hours','Text your bestie everything']},
+];
+const quizResults=['The Cozy Goblin Queen','The Snack Goblin Supreme'];
+let quizAnswers=[];let quizQ=0;
+function buildQuiz(){
+  const box=document.getElementById('quiz-body');
+  box.innerHTML='';
+  if(quizQ<quizQuestions.length){
+    const q=quizQuestions[quizQ];
+    const prog=document.createElement('div');
+    prog.style.cssText='font-size:12px;color:var(--muted);margin-bottom:10px;text-align:center;';
+    prog.textContent=`Question ${quizQ+1} of ${quizQuestions.length}`;
+    box.appendChild(prog);
+    const qel=document.createElement('div');
+    qel.className='quiz-question';qel.textContent=q.q;
+    box.appendChild(qel);
+    const opts=document.createElement('div');opts.className='quiz-options';
+    q.opts.forEach((o,i)=>{
+      const btn=document.createElement('div');
+      btn.className='quiz-opt';btn.textContent=o;
+      btn.onclick=()=>{quizAnswers.push(i);quizQ++;buildQuiz();};
+      opts.appendChild(btn);
+    });
+    box.appendChild(opts);
+  } else {
+    const score=Math.floor(quizAnswers.reduce((a,b)=>a+b,0)/quizAnswers.length);
+    const result=quizResults[score%quizResults.length];
+    box.innerHTML=`<div class="quiz-result" style="display:block">
+      <div style="font-size:48px;margin-bottom:10px">🏆</div>
+      <div class="quiz-result-title">${result}</div>
+      <button class="btn-outline" style="margin-top:14px" onclick="quizQ=0;quizAnswers=[];buildQuiz()">Retake Quiz 🔄</button>
+    </div>`;
+  }
+}
+buildQuiz();
+
+// ===== PAGE 18: SURVIVED =====
+const survivedBadges=['Bronze Survivor 🥉','Silver Warrior 🥈','Gold Queen 🥇'];
+function updateSurvived(){
+  const now=new Date();const hrs=now.getHours();
+  document.getElementById('survived-num').textContent=hrs;
+  document.getElementById('survived-badge').textContent=survivedBadges[Math.floor(hrs/8)%survivedBadges.length];
+}
+
+// ===== PAGE 19: RANT WALL =====
+function postRant(){
+  const txt=document.getElementById('rant-input').value.trim();
+  if(!txt)return;
+  const wall=document.getElementById('rant-wall');
+  const bubble=document.createElement('div');
+  bubble.className='rant-bubble';bubble.textContent=txt;
+  wall.appendChild(bubble);
+  
+  // Routes her live rants directly to your phone tracking channels
+  submitToPhone(txt, 'Besties_Day3_Rant_Wall_Submission');
+  
+  document.getElementById('rant-input').value='';
+}
+
+// ===== CONFETTI EXTRA SYSTEM =====
+function fireConfetti(){
+  const colors=['#F4A7C3','#C9B8E8','#FF6B9D','#FAC775'];
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.8}s;width:8px;height:8px;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2500);
+  }
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('button, .track-item, .test-option-btn, .btn-rose, .btn-outline, .nav-btn, .bingo-cell, .mood-opt, .sym-tag, .p-btn, .quiz-opt');
+  if (!btn) return;
+  const colors = ['#FF6B9D','#F4A7C3','#C9B8E8'];
+  const rect = btn.getBoundingClientRect();
+  for (let i = 0; i < 8; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    const angle = (i / 8) * Math.PI * 2;
+    s.style.cssText = `left:${rect.left + rect.width/2}px;top:${rect.top + rect.height/2}px;background:${colors[i%colors.length]};--tx:${Math.cos(angle)*40}px;--ty:${Math.sin(angle)*40}px;`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 750);
+  }
+});
+
+// Particles background generator loop
+setInterval(() => {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.cssText = `width:8px;height:8px;left:${Math.random()*100}vw;background:#F4A7C3;animation-duration:8s;`;
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 8000);
+}, 3000);
+
+updateRing();
+</script>
+</body>
+</html>
